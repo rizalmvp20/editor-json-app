@@ -23,25 +23,20 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        // ... validasi dan pembuatan user ...
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'is_approved' => false, // <-- TAMBAHKAN BARIS INI
+            'is_approved' => false,
         ]);
 
-        event(new Registered($user)); // Tetap kirim event ini untuk notifikasi email, dll.
+        event(new Registered($user));
 
-        // PASTIKAN BARIS INI TIDAK ADA:
-        // Auth::login($user);
+        // Pastikan baris Auth::login($user); sudah tidak ada di sini.
 
-        // Arahkan pengguna ke halaman tunggu approval
-        return redirect()->route('approval.notice'); // Gunakan nama route lebih baik
+        // Arahkan ke halaman tunggu tanpa login.
+        return redirect('/tunggu-approval');
     }
 }
