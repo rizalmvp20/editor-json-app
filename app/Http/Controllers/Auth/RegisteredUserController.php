@@ -42,9 +42,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // Baris Auth::login($user) sudah dihapus dari sini.
-
-        // Pengguna akan diarahkan ke halaman tunggu.
+        // Pengguna tidak di-login-kan secara otomatis.
+        // Langsung diarahkan ke halaman tunggu approval.
         return redirect('/tunggu-approval');
     }
 }

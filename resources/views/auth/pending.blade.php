@@ -1,5 +1,3 @@
-{{-- File: resources/views/auth/pending.blade.php --}}
-
 <x-guest-layout>
     <div class="mb-4 text-center">
         <h3 class="font-bold text-xl text-gray-800">Pendaftaran Berhasil! ✅</h3>
