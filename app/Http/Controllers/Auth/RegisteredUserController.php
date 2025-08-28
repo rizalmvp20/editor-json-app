@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
@@ -43,8 +42,9 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // Auth::login($user); // <-- BARIS INI DIMATIKAN untuk mencegah login otomatis
+        // Baris Auth::login($user) sudah dihapus dari sini.
 
-        return redirect('/tunggu-approval'); // <-- BARIS INI DIUBAH untuk mengarahkan ke halaman tunggu
+        // Pengguna akan diarahkan ke halaman tunggu.
+        return redirect('/tunggu-approval');
     }
 }
