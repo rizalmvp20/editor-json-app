@@ -14,6 +14,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/tunggu-approval', function () {
+    return view('auth.pending');
+});
+
 // Routes untuk user yang belum login (Guest)
 Route::middleware('guest')->group(function () {
     Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');

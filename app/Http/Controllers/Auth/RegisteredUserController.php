@@ -43,8 +43,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user); // Diberi komentar agar tidak login otomatis
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect('/tunggu-approval'); // Diarahkan ke halaman tunggu
     }
 }
