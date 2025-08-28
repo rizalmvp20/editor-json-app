@@ -7,19 +7,14 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // <-- Pastikan ini tidak digunakan untuk login
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): View
-    {
-        return view('auth.register');
-    }
+    // ... method create() tidak perlu diubah ...
 
     /**
      * Handle an incoming registration request.
@@ -38,12 +33,15 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'is_approved' => false, // <-- TAMBAHKAN BARIS INI
         ]);
 
-        event(new Registered($user));
+        event(new Registered($user)); // Tetap kirim event ini untuk notifikasi email, dll.
 
-        // Pengguna tidak di-login-kan secara otomatis.
-        // Langsung diarahkan ke halaman tunggu approval.
-        return redirect('/tunggu-approval');
+        // PASTIKAN BARIS INI TIDAK ADA:
+        // Auth::login($user);
+
+        // Arahkan pengguna ke halaman tunggu approval
+        return redirect()->route('approval.notice'); // Gunakan nama route lebih baik
     }
 }

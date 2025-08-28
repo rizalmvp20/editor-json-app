@@ -26,9 +26,23 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        $user = Auth::user();
+
+        // TAMBAHKAN BLOK KODE INI
+        if (!$user->is_approved) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return back()->withErrors([
+                'email' => 'Akun Anda sedang menunggu persetujuan admin.',
+            ])->onlyInput('email');
+        }
+        // AKHIR BLOK KODE
+
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**
